@@ -1,0 +1,27 @@
+name: Commercial licensing inquiry
+description: Request permission for commercial use of STSF.
+title: "Commercial Licensing Inquiry: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for a high-level commercial licensing inquiry. Do not include confidential business information in a public issue.
+  - type: input
+    id: requester
+    attributes:
+      label: Requesting person or organization
+    validations:
+      required: true
+  - type: textarea
+    id: use
+    attributes:
+      label: Intended commercial use
+      description: Describe the product, service, deployment, or other intended use at a high level.
+    validations:
+      required: true
+  - type: textarea
+    id: scale
+    attributes:
+      label: Expected scale and duration
+      description: Optional high-level estimate.
