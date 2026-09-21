@@ -1,0 +1,74 @@
+name: STSF Repository Integrity
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  repository-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify archive integrity and safety
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import tarfile
+          import sys
+
+          failures = []
+
+          archives = sorted(Path(".").glob("*.tar.gz"))
+          for archive in archives:
+              sidecar = Path(str(archive) + ".sha256")
+              if not sidecar.is_file():
+                  failures.append(f"{archive}: missing {sidecar.name}")
+                  continue
+
+              expected = sidecar.read_text(encoding="utf-8").strip().split()[0].lower()
+              actual = hashlib.sha256(archive.read_bytes()).hexdigest()
+              if expected != actual:
+                  failures.append(f"{archive}: SHA-256 mismatch")
+                  continue
+
+              try:
+                  with tarfile.open(archive, "r:gz") as tf:
+                      for member in tf.getmembers():
+                          p = Path(member.name)
+                          if p.is_absolute() or ".." in p.parts:
+                              failures.append(f"{archive}: unsafe path {member.name!r}")
+                          if member.issym() or member.islnk() or member.isdev() or member.isfifo():
+                              failures.append(f"{archive}: special/link entry not accepted: {member.name!r}")
+              except Exception as exc:
+                  failures.append(f"{archive}: cannot inspect archive: {exc}")
+
+          # When canonical source-system authority containers are present,
+          # require the complete minimal authority set rather than a partial import.
+          authority = [Path("std"), Path("prg"), Path("spl")]
+          present = [p.exists() for p in authority]
+          if any(present) and not all(present):
+              failures.append("partial authority import: std/, prg/, and spl/ must appear together")
+
+          if all(present):
+              if not Path("SOURCE_SYSTEM_BINDING.json").is_file():
+                  failures.append("imported authority tree is missing SOURCE_SYSTEM_BINDING.json")
+              if not Path("MANIFEST.sha256").is_file():
+                  failures.append("imported authority tree is missing MANIFEST.sha256")
+
+          if failures:
+              print("STSF repository integrity check failed:")
+              for failure in failures:
+                  print(f" - {failure}")
+              sys.exit(1)
+
+          print("STSF repository integrity check passed.")
+          PY
