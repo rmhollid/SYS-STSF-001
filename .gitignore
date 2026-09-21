@@ -1,0 +1,25 @@
+# Local/editor state
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# Python transient state
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local environment/secrets
+.env
+.env.*
+!.env.example
+
+# Build and intake scratch
+build/
+dist/
+.stsf-import/
+
+# Intentionally DO NOT ignore source archives or SHA-256 sidecars.
