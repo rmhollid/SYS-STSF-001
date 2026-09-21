@@ -1,0 +1,17 @@
+# Repository stewardship surfaces
+/.github/ @rmhollid
+/.gitattributes @rmhollid
+/.gitignore @rmhollid
+/README.md @rmhollid
+/LICENSE.md @rmhollid
+/COMMERCIAL-LICENSING.md @rmhollid
+/SECURITY.md @rmhollid
+/CONTRIBUTING.md @rmhollid
+
+# Canonical authority containers once imported
+/std/ @rmhollid
+/prg/ @rmhollid
+/spl/ @rmhollid
+/SOURCE_SYSTEM_BINDING.json @rmhollid
+/MANIFEST.sha256 @rmhollid
+/stsf.py @rmhollid
