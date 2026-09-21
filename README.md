@@ -10,9 +10,19 @@ The canonical STSF source package has not yet been imported into this repository
 
 No STSF compliance claim is made by this repository scaffold.
 
+## Access and licensing
+
+STSF is intended to remain publicly accessible and useful for personal, educational, research, evaluation, and other noncommercial purposes.
+
+**Commercial use is not granted by the public license. Commercial use requires a separate paid written license from the applicable STSF rights holder.**
+
+See [LICENSE.md](LICENSE.md) and [COMMERCIAL-LICENSING.md](COMMERCIAL-LICENSING.md).
+
+This repository is therefore source-available under a noncommercial-use model; the presence of public source does not imply unrestricted commercial-use rights.
+
 ## Authority boundary
 
-Repository-maintenance files under `.github/`, along with `.gitignore` and `.gitattributes`, are stewardship surfaces only. They do not define, replace, extend, or override STSF authority.
+Repository-maintenance files under `.github/`, along with `.gitignore`, `.gitattributes`, and repository policy documents are stewardship surfaces only. They do not define, replace, extend, or override STSF authority.
 
 After import, authoritative source-system content is determined by the verified package itself, including its STD, PRG, SPL, source-system binding, manifests, and operator entry surfaces.
 
